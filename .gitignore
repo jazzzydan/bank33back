@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### manually added stuff
+.jba
+/src/main/generated/
