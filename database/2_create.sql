@@ -39,6 +39,7 @@ CREATE TABLE location_transaction_type (
 CREATE TABLE role (
                       id serial  NOT NULL,
                       name varchar(255)  NOT NULL,
+                      CONSTRAINT role_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                       CONSTRAINT role_pk PRIMARY KEY (id)
 );
 
@@ -56,6 +57,7 @@ CREATE TABLE "user" (
                         username varchar(255)  NOT NULL,
                         password varchar(255)  NOT NULL,
                         status char(1)  NOT NULL,
+                        CONSTRAINT user_ak_1 UNIQUE (username) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                         CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
