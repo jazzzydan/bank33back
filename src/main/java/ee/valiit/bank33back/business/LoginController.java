@@ -14,13 +14,8 @@ public class LoginController {
 
 
     @GetMapping("/login")
-    public LoginResponse login(@RequestParam String username, @RequestParam String password) {
-
-
-
-        // SEE siin all on juba äriloogika
-        LoginResponse loginResponse = new LoginResponse(1, "admin");
-        return loginResponse;
+    public void login(@RequestParam String username, @RequestParam String password) {
+        loginService.login(username, password);
     }
 
 
