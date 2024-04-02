@@ -1,6 +1,6 @@
-package ee.valiit.bank33back.business;
+package ee.valiit.bank33back.business.login;
 
-import ee.valiit.bank33back.business.dto.LoginResponse;
+import ee.valiit.bank33back.business.login.dto.LoginResponse;
 import ee.valiit.bank33back.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

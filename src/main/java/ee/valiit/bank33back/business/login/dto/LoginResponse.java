@@ -1,4 +1,4 @@
-package ee.valiit.bank33back.business.dto;
+package ee.valiit.bank33back.business.login.dto;
 
 import ee.valiit.bank33back.domain.user.User;
 import lombok.AllArgsConstructor;
