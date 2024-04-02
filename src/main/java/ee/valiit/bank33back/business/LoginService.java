@@ -14,7 +14,7 @@ public class LoginService {
 
 
     public LoginResponse login(String username, String password) {
-        User user = userRepository.findUserBy(username, password, "A");
+        User user = userRepository.findUserBy(username, password, Status.ACTIVE);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUserId(user.getId());
