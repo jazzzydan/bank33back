@@ -17,6 +17,7 @@ public class CityService {
 
     public List<CityInfo> getCities() {
         List<City> cities = cityRepository.findAll();
+        // todo: teeme mapperiga
         return toCityInfos(cities);
     }
 
