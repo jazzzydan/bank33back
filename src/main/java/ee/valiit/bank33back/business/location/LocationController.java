@@ -1,5 +1,6 @@
 package ee.valiit.bank33back.business.location;
 
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
