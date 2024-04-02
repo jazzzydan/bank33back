@@ -3,8 +3,12 @@ package ee.valiit.bank33back.business;
 import ee.valiit.bank33back.business.dto.LoginResponse;
 import ee.valiit.bank33back.domain.user.User;
 import ee.valiit.bank33back.domain.user.UserRepository;
+import ee.valiit.bank33back.infrastructure.exception.ForbiddenException;
+import ee.valiit.bank33back.infrastructure.validation.ValidationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -14,7 +18,10 @@ public class LoginService {
 
 
     public LoginResponse login(String username, String password) {
-        User user = userRepository.findUserBy(username, password, Status.ACTIVE);
+
+        Optional<User> optionalUser = userRepository.findUserBy(username, password, Status.ACTIVE);
+
+        User user = ValidationService.getValidExistingUser(optionalUser);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUserId(user.getId());
@@ -22,4 +29,6 @@ public class LoginService {
 
         return loginResponse;
     }
+
+
 }
