@@ -1,6 +1,7 @@
 package ee.valiit.bank33back.business.location;
 
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
+import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
@@ -45,4 +46,9 @@ public class LocationService {
     }
 
 
+    public void addAtmLocation(LocationRequest locationRequest) {
+
+
+
+    }
 }
