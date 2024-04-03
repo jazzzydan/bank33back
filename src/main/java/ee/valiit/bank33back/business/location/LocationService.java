@@ -17,7 +17,9 @@ public class LocationService {
     private LocationMapper locationMapper;
 
     public List<LocationInfo> findAtmLocations(Integer cityId) {
+
         List<Location> locations = locationRepository.findLocationsBy(cityId);
+
         return locationMapper.toLocationInfos(locations);
     }
 
