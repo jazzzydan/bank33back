@@ -1,10 +1,13 @@
 package ee.valiit.bank33back.business.location;
 
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
+import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
 import ee.valiit.bank33back.domain.location.LocationRepository;
+import ee.valiit.bank33back.domain.location.city.City;
+import ee.valiit.bank33back.domain.location.city.CityRepository;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
@@ -18,10 +21,12 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationService {
 
-    private LocationRepository locationRepository;
     private LocationMapper locationMapper;
-    private LocationTransactionTypeRepository locationTransactionTypeRepository;
     private TransactionTypeMapper transactionTypeMapper;
+
+    private LocationTransactionTypeRepository locationTransactionTypeRepository;
+    private LocationRepository locationRepository;
+    private CityRepository cityRepository;
 
     public List<LocationInfo> findAtmLocations(Integer cityId) {
         List<Location> locations = locationRepository.findLocationsBy(cityId);
@@ -41,5 +46,22 @@ public class LocationService {
             List<TransactionTypeInfo> transactionTypeInfos = transactionTypeMapper.toTransactionTypeInfos(transactionTypes);
             locationInfo.setTransactionTypes(transactionTypeInfos);
         }
+    }
+
+    public void addAtmLocation(LocationRequest locationRequest) {
+        Location location = createAndSaveLocation(locationRequest);
+    }
+
+    private Location createAndSaveLocation(LocationRequest locationRequest) {
+        Location location = createLocation(locationRequest);
+        locationRepository.save(location);
+        return location;
+    }
+
+    private Location createLocation(LocationRequest locationRequest) {
+        City city = cityRepository.getReferenceById(locationRequest.getCityId());
+        Location location = locationMapper.toLocation(locationRequest);
+        location.setCity(city);
+        return location;
     }
 }
