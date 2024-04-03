@@ -5,7 +5,10 @@ import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
+import ee.valiit.bank33back.domain.location.LocationMapperImpl;
 import ee.valiit.bank33back.domain.location.LocationRepository;
+import ee.valiit.bank33back.domain.location.city.City;
+import ee.valiit.bank33back.domain.location.city.CityRepository;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
@@ -20,8 +23,10 @@ import java.util.List;
 public class LocationService {
 
     private LocationRepository locationRepository;
-    private LocationMapper locationMapper;
     private LocationTransactionTypeRepository locationTransactionTypeRepository;
+    private CityRepository cityRepository;
+
+    private LocationMapper locationMapper;
     private TransactionTypeMapper transactionTypeMapper;
 
 
@@ -47,8 +52,22 @@ public class LocationService {
 
 
     public void addAtmLocation(LocationRequest locationRequest) {
+        Location location = createAndSaveLocation(locationRequest);
 
 
 
+    }
+
+    private Location createAndSaveLocation(LocationRequest locationRequest) {
+        Location location = createLocation(locationRequest);
+        locationRepository.save(location);
+        return location;
+    }
+
+    private Location createLocation(LocationRequest locationRequest) {
+        City city = cityRepository.getReferenceById(locationRequest.getCityId());
+        Location location = locationMapper.toLocation(locationRequest);
+        location.setCity(city);
+        return location;
     }
 }

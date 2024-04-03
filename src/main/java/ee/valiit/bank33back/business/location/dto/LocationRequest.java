@@ -22,6 +22,7 @@ public class LocationRequest implements Serializable {
     @NotNull
     @Size(max = 255)
     private String locationName;
+
     @NotNull
     @Min(message = "Peab olema vähemalt 1 automaat", value = 1)
     private Integer numberOfAtms;
