@@ -1,4 +1,4 @@
-package ee.valiit.bank33back.business.dto;
+package ee.valiit.bank33back.business.city.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +14,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class CityInfo implements Serializable {
     private Integer cityId;
-    private String CityName;
+    private String cityName;
 }

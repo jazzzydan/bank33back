@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.business.login;
 
-import ee.valiit.bank33back.business.dto.LoginResponse;
+import ee.valiit.bank33back.business.login.dto.LoginResponse;
 import ee.valiit.bank33back.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,13 +23,12 @@ public class LoginController {
             description = """
                     Süsteemist otsitakse username ja password abil kasutajat, kelle konto on ka aktiivne. 
                     Kui vastet ei leita vistakse viga errorCode'ga 111""")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "meie OK"),
-                    @ApiResponse(responseCode = "403", description = "Vale kasutajanimi voi parool", content = @Content(schema = @Schema(implementation = ApiError.class)))
-            }
-    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = " meie OK"),
+            @ApiResponse(responseCode = "403", description = "Vale kasutajanimi või parool", content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
     public LoginResponse login(@RequestParam String username, @RequestParam String password) {
         return loginService.login(username, password);
     }
+
 }

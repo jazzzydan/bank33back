@@ -8,7 +8,8 @@ import java.util.Optional;
 import static ee.valiit.bank33back.infrastructure.error.Error.INCORRECT_CREDENTIALS;
 
 public class ValidationService {
-    public static User GetValidExistingUser(Optional<User> optionalUser) {
+
+    public static User getValidExistingUser(Optional<User> optionalUser) {
         if (optionalUser.isEmpty()) {
             throw new ForbiddenException(INCORRECT_CREDENTIALS.getMessage(), INCORRECT_CREDENTIALS.getErrorCode());
         }
