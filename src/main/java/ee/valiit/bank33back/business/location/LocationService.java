@@ -27,19 +27,22 @@ public class LocationService {
     public List<LocationInfo> findAtmLocations(Integer cityId) {
         List<Location> locations = locationRepository.findLocationsBy(cityId);
         ValidationService.validateLocationExists(locations);
+        return createLocationInfos(locations);
+    }
 
+    private List<LocationInfo> createLocationInfos(List<Location> locations) {
         List<LocationInfo> locationInfos = locationMapper.toLocationInfos(locations);
+        addTransactionTypes(locationInfos);
+        return locationInfos;
+    }
 
+    private void addTransactionTypes(List<LocationInfo> locationInfos) {
         for (LocationInfo locationInfo : locationInfos) {
             List<TransactionType> transactionTypes = locationTransactionTypeRepository.findTransactionTypesBy(locationInfo.getLocationId());
             List<TransactionTypeInfo> transactionTypeInfos = transactionTypeMapper.toTransactionTypeInfos(transactionTypes);
             locationInfo.setTransactionTypes(transactionTypeInfos);
         }
-
-
-        return locationInfos;
     }
-
 
 
 }
