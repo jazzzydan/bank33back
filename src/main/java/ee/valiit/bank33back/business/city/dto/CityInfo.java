@@ -1,5 +1,6 @@
 package ee.valiit.bank33back.business.city.dto;
 
+import ee.valiit.bank33back.domain.location.city.City;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * DTO for {@link ee.valiit.bank33back.domain.city.City}
+ * DTO for {@link City}
  */
 @Data
 @AllArgsConstructor

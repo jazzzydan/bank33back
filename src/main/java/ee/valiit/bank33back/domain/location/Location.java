@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.domain.location;
 
-import ee.valiit.bank33back.domain.city.City;
+import ee.valiit.bank33back.domain.location.city.City;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

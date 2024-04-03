@@ -25,4 +25,6 @@ public class ValidationService {
             throw new DataNotFoundException(NO_LOCATION_FOUND.getMessage(), NO_LOCATION_FOUND.getErrorCode());
         }
     }
+
+
 }

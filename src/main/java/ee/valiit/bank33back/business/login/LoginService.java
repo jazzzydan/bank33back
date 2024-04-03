@@ -19,12 +19,9 @@ public class LoginService {
     private UserMapper userMapper;
 
     public LoginResponse login(String username, String password) {
-
         Optional<User> optionalUser = userRepository.findUserBy(username, password, Status.ACTIVE);
         User user = ValidationService.getValidExistingUser(optionalUser);
-
         return userMapper.toLoginResponse(user);
     }
-
 
 }
