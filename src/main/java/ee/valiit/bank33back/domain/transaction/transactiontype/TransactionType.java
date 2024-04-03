@@ -1,4 +1,4 @@
-package ee.valiit.bank33back.domain.role;
+package ee.valiit.bank33back.domain.transaction.transactiontype;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "transaction_type")
+public class TransactionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "cityName": "Tallinn",
+    "locationId": 1,
+    "locationName": "Mustamäe Prisma",
+    "transactionTypes": [
+      {
+        "transactionTypeName": "raha sisse"
+      },
+      {
+        "transactionTypeName": "raha välja"
+      },
+      {
+        "transactionTypeName": "maksed"
+      }
+    ]
+  }

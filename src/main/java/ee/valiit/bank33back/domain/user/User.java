@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.domain.user;
 
-import ee.valiit.bank33back.domain.role.Role;
+import ee.valiit.bank33back.domain.user.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

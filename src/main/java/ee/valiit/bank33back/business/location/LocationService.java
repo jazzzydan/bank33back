@@ -20,7 +20,11 @@ public class LocationService {
     public List<LocationInfo> findAtmLocations(Integer cityId) {
         List<Location> locations = locationRepository.findLocationsBy(cityId);
         ValidationService.validateLocationExists(locations);
-        return locationMapper.toLocationInfos(locations);
+
+        List<LocationInfo> locationInfos = locationMapper.toLocationInfos(locations);
+
+
+        return locationInfos;
     }
 
 

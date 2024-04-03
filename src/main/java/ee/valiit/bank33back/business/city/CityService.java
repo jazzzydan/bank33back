@@ -1,13 +1,12 @@
 package ee.valiit.bank33back.business.city;
 
 import ee.valiit.bank33back.business.city.dto.CityInfo;
-import ee.valiit.bank33back.domain.city.City;
-import ee.valiit.bank33back.domain.city.CityMapper;
-import ee.valiit.bank33back.domain.city.CityRepository;
+import ee.valiit.bank33back.domain.location.city.City;
+import ee.valiit.bank33back.domain.location.city.CityMapper;
+import ee.valiit.bank33back.domain.location.city.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
