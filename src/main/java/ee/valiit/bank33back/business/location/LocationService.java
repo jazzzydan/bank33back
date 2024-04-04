@@ -9,10 +9,12 @@ import ee.valiit.bank33back.domain.location.LocationMapperImpl;
 import ee.valiit.bank33back.domain.location.LocationRepository;
 import ee.valiit.bank33back.domain.location.city.City;
 import ee.valiit.bank33back.domain.location.city.CityRepository;
+import ee.valiit.bank33back.domain.location.locationimage.LocationImage;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
 import ee.valiit.bank33back.infrastructure.validation.ValidationService;
+import ee.valiit.bank33back.util.StringConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +56,12 @@ public class LocationService {
     public void addAtmLocation(LocationRequest locationRequest) {
         Location location = createAndSaveLocation(locationRequest);
 
+        if (hasImage(locationRequest.getImageData())) {
 
+        }
 
     }
+
 
     private Location createAndSaveLocation(LocationRequest locationRequest) {
         Location location = createLocation(locationRequest);
@@ -70,4 +75,9 @@ public class LocationService {
         location.setCity(city);
         return location;
     }
+
+    private static boolean hasImage(String imageData) {
+        return !imageData.isEmpty();
+    }
+
 }
