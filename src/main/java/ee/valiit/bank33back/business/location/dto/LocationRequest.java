@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationRequest implements Serializable {
-
     private Integer cityId;
 
     @NotNull
@@ -25,10 +24,11 @@ public class LocationRequest implements Serializable {
     private String locationName;
 
     @NotNull
-    @Min(message = "Please choose at least one ATM", value = 1)
+    @Min(message = "Peab olema vähemalt 1 automaat", value = 1)
     private Integer numberOfAtms;
 
     private String imageData;
 
     private List<TransactionTypeInfoExtended> transactionTypes;
+
 }

@@ -1,0 +1,23 @@
+{
+  "cityId": 2,
+  "locationName": "Laagri MM",
+  "numberOfAtms": 5,
+  "imageData": "aasdasdasdas",
+  "transactionTypes": [
+    {
+      "transactionTypeName": "Sularaha sisse",
+      "transactionTypeId": 1,
+      "isAvailable": true
+    },
+    {
+      "transactionTypeName": "Sularaha välja",
+      "transactionTypeId": 2,
+      "isAvailable": true
+    },
+    {
+      "transactionTypeName": "Maksed",
+      "transactionTypeId": 2,
+      "isAvailable": true
+    }
+  ]
+}

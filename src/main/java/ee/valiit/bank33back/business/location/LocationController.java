@@ -37,4 +37,5 @@ public class LocationController {
     public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
         locationService.addAtmLocation(locationRequest);
     }
+
 }

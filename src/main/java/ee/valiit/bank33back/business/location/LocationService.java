@@ -5,13 +5,16 @@ import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
+import ee.valiit.bank33back.domain.location.LocationMapperImpl;
 import ee.valiit.bank33back.domain.location.LocationRepository;
 import ee.valiit.bank33back.domain.location.city.City;
 import ee.valiit.bank33back.domain.location.city.CityRepository;
+import ee.valiit.bank33back.domain.location.locationimage.LocationImage;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
 import ee.valiit.bank33back.infrastructure.validation.ValidationService;
+import ee.valiit.bank33back.util.StringConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +24,13 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationService {
 
+    private LocationRepository locationRepository;
+    private LocationTransactionTypeRepository locationTransactionTypeRepository;
+    private CityRepository cityRepository;
+
     private LocationMapper locationMapper;
     private TransactionTypeMapper transactionTypeMapper;
 
-    private LocationTransactionTypeRepository locationTransactionTypeRepository;
-    private LocationRepository locationRepository;
-    private CityRepository cityRepository;
 
     public List<LocationInfo> findAtmLocations(Integer cityId) {
         List<Location> locations = locationRepository.findLocationsBy(cityId);
@@ -48,9 +52,16 @@ public class LocationService {
         }
     }
 
+
     public void addAtmLocation(LocationRequest locationRequest) {
         Location location = createAndSaveLocation(locationRequest);
+
+        if (hasImage(locationRequest.getImageData())) {
+
+        }
+
     }
+
 
     private Location createAndSaveLocation(LocationRequest locationRequest) {
         Location location = createLocation(locationRequest);
@@ -64,4 +75,9 @@ public class LocationService {
         location.setCity(city);
         return location;
     }
+
+    private static boolean hasImage(String imageData) {
+        return !imageData.isEmpty();
+    }
+
 }

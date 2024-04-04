@@ -7,9 +7,14 @@ import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface TransactionTypeMapper {
-@Mapping(source = "name", target = "transactionTypeName")
+
+
+    @Mapping(source = "name", target = "transactionTypeName")
     TransactionTypeInfo toTransactionTypeInfo(TransactionType transactionType);
-    List<TransactionTypeInfo> toTransactionTypeInfos(List<TransactionType> transactionTypes);
+
+   List <TransactionTypeInfo> toTransactionTypeInfos(List <TransactionType> transactionTypes);
+
+
 
 
 }
