@@ -1,7 +1,7 @@
 package ee.valiit.bank33back.domain.transaction.transactiontype;
 
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
-import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
+import ee.valiit.bank33back.business.transactiontype.dto.TransactionTypeInfoExtended;
 import org.mapstruct.*;
 
 import java.util.List;

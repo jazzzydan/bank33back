@@ -4,7 +4,7 @@ package ee.valiit.bank33back.domain.location;
 
 import ee.valiit.bank33back.business.Status;
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
-import ee.valiit.bank33back.business.location.dto.LocationRequest;
+import ee.valiit.bank33back.business.location.dto.LocationInfoExtended;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -22,6 +22,12 @@ public interface LocationMapper {
     @Mapping(source = "locationName", target = "name")
     @Mapping(source = "numberOfAtms", target = "numberOfAtms")
     @Mapping(constant = Status.ACTIVE, target = "status")
-    Location toLocation(LocationRequest locationRequest);
+    Location toLocation(LocationInfoExtended locationInfoExtended);
+
+
+    @Mapping(source = "city.id", target = "cityId")
+    @Mapping(source = "name", target = "locationName")
+    @Mapping(source = "numberOfAtms", target = "numberOfAtms")
+    LocationInfoExtended toLocationInfoExtended(Location location);
 
 }

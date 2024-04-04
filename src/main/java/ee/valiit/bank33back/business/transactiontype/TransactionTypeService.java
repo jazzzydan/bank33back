@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.business.transactiontype;
 
-import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
+import ee.valiit.bank33back.business.transactiontype.dto.TransactionTypeInfoExtended;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeRepository;
