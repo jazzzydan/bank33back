@@ -6,19 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionTypeInfoExtended extends TransactionTypeInfo {
+public class TransactionTypeInfoExtended {
     private Integer transactionTypeId;
+    private String transactionTypeName;
     private Boolean isAvailable;
 
-
-//    {
-//        "transactionTypeId": 1,
-//        "transactionTypeName": "raha sisse",
-//        "isAvailable": false
-//    },
 
     public Boolean isAvailable() {
         return isAvailable;
