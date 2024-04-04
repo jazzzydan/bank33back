@@ -18,7 +18,7 @@ public interface TransactionTypeMapper {
 
     @Mapping(source = "id", target = "transactionTypeId")
     @Mapping(source = "name", target = "transactionTypeName")
-    @Mapping(constant = "true", target = "isAvailable")
+    @Mapping(constant = "false", target = "isAvailable")
     TransactionTypeInfoExtended toTransactionTypeInfoExtended(TransactionType transactionType);
 
     List<TransactionTypeInfoExtended> toTransactionTypeInfosExtended(List<TransactionType> transactionTypes);
