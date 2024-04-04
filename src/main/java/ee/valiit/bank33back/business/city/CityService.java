@@ -13,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CityService {
 
-    private CityRepository cityRepository;
-    private CityMapper cityMapper;
+    private final CityRepository cityRepository;
+    private final CityMapper cityMapper;
 
     public List<CityInfo> getCities() {
         List<City> cities = cityRepository.findAll();

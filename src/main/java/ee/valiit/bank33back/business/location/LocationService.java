@@ -3,6 +3,7 @@ package ee.valiit.bank33back.business.location;
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
 import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
+import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
 import ee.valiit.bank33back.domain.location.LocationMapperImpl;
@@ -12,9 +13,11 @@ import ee.valiit.bank33back.domain.location.city.CityRepository;
 import ee.valiit.bank33back.domain.location.locationimage.LocationImage;
 import ee.valiit.bank33back.domain.location.locationimage.LocationImageMapper;
 import ee.valiit.bank33back.domain.location.locationimage.LocationImageRepository;
+import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionType;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
+import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeRepository;
 import ee.valiit.bank33back.infrastructure.validation.ValidationService;
 import ee.valiit.bank33back.util.StringConverter;
 import lombok.AllArgsConstructor;
@@ -26,14 +29,15 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationService {
 
-    private CityRepository cityRepository;
-    private LocationRepository locationRepository;
-    private LocationImageRepository locationImageRepository;
-    private LocationTransactionTypeRepository locationTransactionTypeRepository;
+    private final CityRepository cityRepository;
+    private final LocationRepository locationRepository;
+    private final LocationImageRepository locationImageRepository;
+    private final TransactionTypeRepository transactionTypeRepository;
+    private final LocationTransactionTypeRepository locationTransactionTypeRepository;
 
-    private LocationMapper locationMapper;
-    private LocationImageMapper locationImageMapper;
-    private TransactionTypeMapper transactionTypeMapper;
+    private final LocationMapper locationMapper;
+    private final LocationImageMapper locationImageMapper;
+    private final TransactionTypeMapper transactionTypeMapper;
 
 
     public List<LocationInfo> findAtmLocations(Integer cityId) {
@@ -59,13 +63,59 @@ public class LocationService {
 
     public void addAtmLocation(LocationRequest locationRequest) {
         Location location = createAndSaveLocation(locationRequest);
+        handleImageData(locationRequest, location);
+        // todo: käime läbi kõik request transaction typed
+        // todo: konrtrollime kas isAvailable on true
+        // todo: kui on true siis
+        // todo: Loome uue entity objekti 'locationTransactionType
+        // todo: lisame talle külge locationi
+        // todo: transactionTypeId väärtuse abil leiame repositoriga ülesse entity (TransactionType) objekti
+        // todo: ja lisame selle transacctionType objekti  'locationTransactionType' entity külge
+        // todo: salvestame locationTransactionType andmebaasi
 
-        if (hasImage(locationRequest.getImageData())) {
-            LocationImage locationImage = locationImageMapper.toLocationImage(locationRequest);
-            locationImage.setLocation(location);
-            locationImageRepository.save(locationImage);
+
+        for (TransactionTypeInfoExtended transactionTypeInfo : locationRequest.getTransactionTypes()) {
+
+            if (transactionTypeInfo.isAvailable()) {
+                TransactionType transactionType = transactionTypeRepository.getReferenceById(transactionTypeInfo.getTransactionTypeId());
+                createAndSaveLocationTransactionType(location, transactionType);
+            }
+
         }
 
+
+    }
+
+
+    private static LocationTransactionType createLocationTransactionType(Location location, TransactionType transactionType) {
+        LocationTransactionType locationTransactionType = new LocationTransactionType();
+        locationTransactionType.setLocation(location);
+        locationTransactionType.setTransactionType(transactionType);
+        return locationTransactionType;
+    }
+
+    private void createAndSaveLocationTransactionType(Location location, TransactionType transactionType) {
+        LocationTransactionType locationTransactionType = createLocationTransactionType(location, transactionType);
+        locationTransactionTypeRepository.save(locationTransactionType);
+    }
+
+
+
+    private void handleImageData(LocationRequest locationRequest, Location location) {
+        if (hasImage(locationRequest.getImageData())) {
+            createAndSaveLocationImage(locationRequest, location);
+        }
+    }
+
+    private void createAndSaveLocationImage(LocationRequest locationRequest, Location location) {
+        LocationImage locationImage = createLocationImage(locationRequest, location);
+        locationImageRepository.save(locationImage);
+    }
+
+    private LocationImage createLocationImage(LocationRequest locationRequest, Location location) {
+        LocationImage locationImage = locationImageMapper.toLocationImage(locationRequest);
+        locationImage.setLocation(location);
+        return locationImage;
     }
 
 
