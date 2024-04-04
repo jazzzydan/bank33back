@@ -1,5 +1,6 @@
 package ee.valiit.bank33back.business.transactiontype;
 
+import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeRepository;
@@ -16,8 +17,8 @@ public class TransactionTypeService {
     private final TransactionTypeMapper transactionTypeMapper;
 
 
-    public void getTransactionTypes() {
+    public List<TransactionTypeInfoExtended> getTransactionTypes() {
         List<TransactionType> transactionTypes = transactionTypeRepository.findAll();
-
+        return transactionTypeMapper.toTransactionTypeInfosExtended(transactionTypes);
     }
 }
