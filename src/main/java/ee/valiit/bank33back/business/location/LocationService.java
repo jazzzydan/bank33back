@@ -117,7 +117,7 @@ public class LocationService {
         List<LocationTransactionType> locationTransactionTypes = new ArrayList<>();
         for (TransactionTypeInfoExtended transactionTypeInfo : locationRequest.getTransactionTypes()) {
 
-            if (transactionTypeInfo.isAvailable()) {
+            if (transactionTypeInfo.getIsAvailable()) {
                 TransactionType transactionType = transactionTypeRepository.getReferenceById(transactionTypeInfo.getTransactionTypeId());
                 LocationTransactionType locationTransactionType = createLocationTransactionType(location, transactionType);
                 locationTransactionTypes.add(locationTransactionType);

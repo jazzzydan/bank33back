@@ -2,7 +2,6 @@ package ee.valiit.bank33back.business.location.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -13,8 +12,4 @@ public class TransactionTypeInfoExtended {
     private String transactionTypeName;
     private Boolean isAvailable;
 
-
-    public Boolean isAvailable() {
-        return isAvailable;
-    }
 }

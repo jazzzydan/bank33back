@@ -13,13 +13,14 @@ public interface TransactionTypeMapper {
     @Mapping(source = "name", target = "transactionTypeName")
     TransactionTypeInfo toTransactionTypeInfo(TransactionType transactionType);
 
-   List <TransactionTypeInfo> toTransactionTypeInfos(List <TransactionType> transactionTypes);
-
+    List<TransactionTypeInfo> toTransactionTypeInfos(List<TransactionType> transactionTypes);
 
 
     @Mapping(source = "id", target = "transactionTypeId")
     @Mapping(source = "name", target = "transactionTypeName")
     @Mapping(constant = "true", target = "isAvailable")
     TransactionTypeInfoExtended toTransactionTypeInfoExtended(TransactionType transactionType);
+
+    List<TransactionTypeInfoExtended> toTransactionTypeInfosExtended(List<TransactionType> transactionTypes);
 
 }
