@@ -12,7 +12,7 @@
     {
       "transactionTypeName": "Sularaha välja",
       "transactionTypeId": 2,
-      "isAvailable": true
+      "isAvailable": false
     },
     {
       "transactionTypeName": "Maksed",

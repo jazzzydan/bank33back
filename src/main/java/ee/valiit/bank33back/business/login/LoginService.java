@@ -15,8 +15,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LoginService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     public LoginResponse login(String username, String password) {
         Optional<User> optionalUser = userRepository.findUserBy(username, password, Status.ACTIVE);

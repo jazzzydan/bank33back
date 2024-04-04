@@ -34,6 +34,10 @@ public class LocationController {
     }
 
     @PostMapping("/location")
+    @Operation(summary = "Uue pangaautomaadi lisamine.",description = "imageData ja transactionTypeName pole kohustuslikud väljad")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
         locationService.addAtmLocation(locationRequest);
     }

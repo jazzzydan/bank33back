@@ -12,4 +12,8 @@ import lombok.NoArgsConstructor;
 public class TransactionTypeInfoExtended extends TransactionTypeInfo {
     private Integer transactionTypeId;
     private Boolean isAvailable;
+
+    public Boolean isAvailable() {
+        return isAvailable;
+    }
 }
