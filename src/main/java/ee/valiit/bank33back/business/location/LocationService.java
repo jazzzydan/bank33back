@@ -10,6 +10,8 @@ import ee.valiit.bank33back.domain.location.LocationRepository;
 import ee.valiit.bank33back.domain.location.city.City;
 import ee.valiit.bank33back.domain.location.city.CityRepository;
 import ee.valiit.bank33back.domain.location.locationimage.LocationImage;
+import ee.valiit.bank33back.domain.location.locationimage.LocationImageMapper;
+import ee.valiit.bank33back.domain.location.locationimage.LocationImageRepository;
 import ee.valiit.bank33back.domain.transaction.locationtransactiontype.LocationTransactionTypeRepository;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
@@ -24,11 +26,13 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationService {
 
-    private LocationRepository locationRepository;
-    private LocationTransactionTypeRepository locationTransactionTypeRepository;
     private CityRepository cityRepository;
+    private LocationRepository locationRepository;
+    private LocationImageRepository locationImageRepository;
+    private LocationTransactionTypeRepository locationTransactionTypeRepository;
 
     private LocationMapper locationMapper;
+    private LocationImageMapper locationImageMapper;
     private TransactionTypeMapper transactionTypeMapper;
 
 
@@ -57,7 +61,9 @@ public class LocationService {
         Location location = createAndSaveLocation(locationRequest);
 
         if (hasImage(locationRequest.getImageData())) {
-
+            LocationImage locationImage = locationImageMapper.toLocationImage(locationRequest);
+            locationImage.setLocation(location);
+            locationImageRepository.save(locationImage);
         }
 
     }

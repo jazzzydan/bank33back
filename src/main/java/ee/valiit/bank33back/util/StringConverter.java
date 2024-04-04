@@ -9,7 +9,8 @@ public class StringConverter {
     }
 
     public static byte[] stringToBytes(String string) {
-        return string.getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+        return bytes;
     }
 
 }
