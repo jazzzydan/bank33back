@@ -13,6 +13,13 @@ public class TransactionTypeInfoExtended extends TransactionTypeInfo {
     private Integer transactionTypeId;
     private Boolean isAvailable;
 
+
+//    {
+//        "transactionTypeId": 1,
+//        "transactionTypeName": "raha sisse",
+//        "isAvailable": false
+//    },
+
     public Boolean isAvailable() {
         return isAvailable;
     }
