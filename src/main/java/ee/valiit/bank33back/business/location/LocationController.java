@@ -2,7 +2,7 @@ package ee.valiit.bank33back.business.location;
 
 
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
-import ee.valiit.bank33back.business.location.dto.LocationRequest;
+import ee.valiit.bank33back.business.location.dto.LocationInfoExtended;
 import ee.valiit.bank33back.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +22,23 @@ public class LocationController {
 
     private LocationService locationService;
 
+    @PostMapping("/location")
+    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void addAtmLocation(@RequestBody @Valid LocationInfoExtended locationInfoExtended) {
+        locationService.addAtmLocation(locationInfoExtended);
+    }
+
+    @GetMapping("/location/{locationId}")
+    public void getLocation(@PathVariable Integer locationId) {
+        locationService.getLocation(locationId);
+    }
+
+
+
+
     @GetMapping("/locations/city/{cityId}")
     @Operation(summary = "Tagastab pangaatuomaatide asukohtade infot.",
             description = "Kui cityId on 0, siis tagastatakse kõik asukohad")
@@ -31,15 +48,6 @@ public class LocationController {
                     content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public List<LocationInfo> findAtmLocations(@PathVariable Integer cityId) {
         return locationService.findAtmLocations(cityId);
-    }
-
-    @PostMapping("/location")
-    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
-        locationService.addAtmLocation(locationRequest);
     }
 
 }
