@@ -40,11 +40,10 @@ public class LocationService {
     private final TransactionTypeMapper transactionTypeMapper;
 
 
-    public List<LocationInfo> findAtmLocations(Integer cityId) {
-        List<Location> locations = locationRepository.findLocationsBy(cityId);
-        ValidationService.validateLocationExists(locations);
-        return createLocationInfos(locations);
+    public void getAtmLocation(Integer locationId) {
+
     }
+
 
     @Transactional
     public void addAtmLocation(LocationRequest locationRequest) {
@@ -53,6 +52,14 @@ public class LocationService {
         handleImageData(locationRequest, location);
         createAndSaveLocationTransactionTypes(locationRequest, location);
     }
+
+    public List<LocationInfo> findAtmLocations(Integer cityId) {
+        List<Location> locations = locationRepository.findLocationsBy(cityId);
+        ValidationService.validateLocationExists(locations);
+        return createLocationInfos(locations);
+    }
+
+
 
     private void handleLocationNameAvailabilityValidation(LocationRequest locationRequest) {
         boolean locationNameExists = locationRepository.locationNameExists(locationRequest.getLocationName());
@@ -134,7 +141,5 @@ public class LocationService {
         return locationTransactionType;
     }
 
-    public void getAtmLocation(Integer locationId) {
 
-    }
 }
