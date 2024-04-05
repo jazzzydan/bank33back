@@ -9,13 +9,12 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface TransactionTypeMapper {
 
-//    @Named("toTransactionTypeInfo")
+    @Named("toTransactionTypeInfo")
     @Mapping(source = "name", target = "transactionTypeName")
     TransactionTypeInfo toTransactionTypeInfo(TransactionType transactionType);
 
     @IterableMapping(qualifiedByName = "toTransactionTypeInfo")
     List<TransactionTypeInfo> toTransactionTypeInfos(List<TransactionType> transactionTypes);
-
 
     @Named("toTransactionTypeInfoExtended")
     @Mapping(source = "id", target = "transactionTypeId")
