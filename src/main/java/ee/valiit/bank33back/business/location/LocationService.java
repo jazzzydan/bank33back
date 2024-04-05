@@ -134,4 +134,7 @@ public class LocationService {
         return locationTransactionType;
     }
 
+    public void getAtmLocation(Integer locationId) {
+
+    }
 }

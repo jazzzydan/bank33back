@@ -22,6 +22,20 @@ public class LocationController {
 
     private LocationService locationService;
 
+    @PostMapping("/location")
+    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
+        locationService.addAtmLocation(locationRequest);
+    }
+
+    @GetMapping("/location/{locationId}")
+    public void getAtmLocation(@PathVariable Integer locationId) {
+        locationService.getAtmLocation(locationId);
+    }
+
     @GetMapping("/locations/city/{cityId}")
     @Operation(summary = "Tagastab pangaatuomaatide asukohtade infot.",
             description = "Kui cityId on 0, siis tagastatakse kõik asukohad")
@@ -33,13 +47,6 @@ public class LocationController {
         return locationService.findAtmLocations(cityId);
     }
 
-    @PostMapping("/location")
-    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
-        locationService.addAtmLocation(locationRequest);
-    }
+
 
 }
