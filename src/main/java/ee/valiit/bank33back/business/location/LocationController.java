@@ -2,6 +2,7 @@ package ee.valiit.bank33back.business.location;
 
 
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
+import ee.valiit.bank33back.business.location.dto.LocationInfoView;
 import ee.valiit.bank33back.business.location.dto.LocationRequest;
 import ee.valiit.bank33back.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,8 +33,10 @@ public class LocationController {
     }
 
     @GetMapping("/location/{locationId}")
-    public void getAtmLocation(@PathVariable Integer locationId) {
-        locationService.getAtmLocation(locationId);
+    @Operation(summary = "Leiab locationId abil ülesse pangaautomaadi asukoha info koos pildi infoga",
+            description = "Kui pilti ei ole, siis imageData välja väärtus on tühi string")
+    public LocationInfoView getAtmLocation(@PathVariable Integer locationId) {
+        return locationService.getAtmLocation(locationId);
     }
 
     @GetMapping("/locations/city/{cityId}")

@@ -1,9 +1,6 @@
 package ee.valiit.bank33back.business.location;
 
-import ee.valiit.bank33back.business.location.dto.LocationInfo;
-import ee.valiit.bank33back.business.location.dto.LocationRequest;
-import ee.valiit.bank33back.business.location.dto.TransactionTypeInfo;
-import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
+import ee.valiit.bank33back.business.location.dto.*;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
 import ee.valiit.bank33back.domain.location.LocationRepository;
@@ -18,12 +15,14 @@ import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionType;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeMapper;
 import ee.valiit.bank33back.domain.transaction.transactiontype.TransactionTypeRepository;
 import ee.valiit.bank33back.infrastructure.validation.ValidationService;
+import ee.valiit.bank33back.util.StringConverter;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -40,9 +39,20 @@ public class LocationService {
     private final TransactionTypeMapper transactionTypeMapper;
 
 
-    public void getAtmLocation(Integer locationId) {
+    public LocationInfoView getAtmLocation(Integer locationId) {
+        Location location = locationRepository.getReferenceById(locationId);
 
+        String imageData = getImageData(locationId);
+        List<TransactionType> transactionTypes = locationTransactionTypeRepository.findTransactionTypesBy(locationId);
+
+        List<TransactionTypeInfo> transactionTypeInfos = transactionTypeMapper.toTransactionTypeInfos(transactionTypes);
+        LocationInfoView locationInfoView = locationMapper.toLocationInfoView(location);
+        locationInfoView.setImageData(imageData);
+        locationInfoView.setTransactionTypes(transactionTypeInfos);
+
+        return locationInfoView;
     }
+
 
 
     @Transactional
@@ -57,6 +67,16 @@ public class LocationService {
         List<Location> locations = locationRepository.findLocationsBy(cityId);
         ValidationService.validateLocationExists(locations);
         return createLocationInfos(locations);
+    }
+
+    private String getImageData(Integer locationId) {
+        Optional<LocationImage> optionalLocationImage = locationImageRepository.findLocationImageBy(locationId);
+
+        String imageData = "";
+        if (optionalLocationImage.isPresent()) {
+            imageData = StringConverter.bytesToString(optionalLocationImage.get().getData());
+        }
+        return imageData;
     }
 
 
