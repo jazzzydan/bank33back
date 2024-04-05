@@ -61,6 +61,26 @@ public class LocationService {
         return locationInfoView;
     }
 
+    public void updateAtmLocation(Integer locationId, LocationRequest locationRequest) {
+        Location location = locationRepository.getReferenceById(locationId);
+
+
+        if (haveSameCityId(locationRequest, location)) {
+
+        }
+
+        // vaja sellega tegeleda
+//    @Mapping(source = "", target = "city")
+        locationMapper.updateLocation(locationRequest, location);
+
+
+
+    }
+
+    private static boolean haveSameCityId(LocationRequest locationRequest, Location location) {
+        return location.getCity().getId().equals(locationRequest.getCityId());
+    }
+
     public void removeAtmLocation(Integer locationId) {
         Location location = locationRepository.getReferenceById(locationId);
         location.setStatus(Status.DEACTIVATED);

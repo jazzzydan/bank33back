@@ -40,6 +40,12 @@ public class LocationController {
     }
 
 
+    @PutMapping("/location/{locationId}")
+    public void updateAtmLocation(@PathVariable Integer locationId, @RequestBody LocationRequest locationRequest) {
+        locationService.updateAtmLocation(locationId, locationRequest);
+    }
+
+
     @DeleteMapping("/location/{locationId}")
     @Operation(summary = "Pangaautomaadi eemaldamine locationId abil",
             description = "Andmebaasist reaalselt asukoha infot ei eemaldata, vaid see deaktiveeritakse")
