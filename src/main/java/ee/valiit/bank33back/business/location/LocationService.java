@@ -65,7 +65,7 @@ public class LocationService {
         Location location = locationRepository.getReferenceById(locationId);
 
 
-        if (haveSameCityId(locationRequest, location)) {
+        if (!haveSameCityId(locationRequest, location)) {
 
         }
 
