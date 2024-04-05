@@ -65,14 +65,18 @@ public class LocationService {
         Location location = locationRepository.getReferenceById(locationId);
 
 
-        if (!haveSameCityId(locationRequest, location)) {
-
-        }
 
         // vaja sellega tegeleda
 //    @Mapping(source = "", target = "city")
         locationMapper.updateLocation(locationRequest, location);
 
+
+        if (!haveSameCityId(locationRequest, location)) {
+            // todo: leia cityId abil ülesse City objekt ja pane see location'i külge
+        }
+
+
+        // todo: salvesta location objekt
 
 
     }
