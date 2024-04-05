@@ -1,4 +1,4 @@
-package ee.valiit.bank33back.business.transactiontype.dto;
+package ee.valiit.bank33back.business.location.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

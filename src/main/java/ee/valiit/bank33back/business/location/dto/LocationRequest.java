@@ -1,6 +1,5 @@
 package ee.valiit.bank33back.business.location.dto;
 
-import ee.valiit.bank33back.business.transactiontype.dto.TransactionTypeInfoExtended;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationInfoExtended implements Serializable {
+public class LocationRequest implements Serializable {
     private Integer cityId;
 
     @NotNull
