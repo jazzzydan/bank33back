@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.business.transactiontype;
 
-import ee.valiit.bank33back.business.transactiontype.dto.TransactionTypeInfoExtended;
+import ee.valiit.bank33back.business.location.dto.TransactionTypeInfoExtended;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
