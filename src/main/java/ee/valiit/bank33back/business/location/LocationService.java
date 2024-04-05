@@ -1,5 +1,6 @@
 package ee.valiit.bank33back.business.location;
 
+import ee.valiit.bank33back.business.Status;
 import ee.valiit.bank33back.business.location.dto.*;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
@@ -38,6 +39,13 @@ public class LocationService {
     private final LocationImageMapper locationImageMapper;
     private final TransactionTypeMapper transactionTypeMapper;
 
+    @Transactional
+    public void addAtmLocation(LocationRequest locationRequest) {
+        handleLocationNameAvailabilityValidation(locationRequest);
+        Location location = createAndSaveLocation(locationRequest);
+        handleImageData(locationRequest, location);
+        createAndSaveLocationTransactionTypes(locationRequest, location);
+    }
 
     public LocationInfoView getAtmLocation(Integer locationId) {
         Location location = locationRepository.getReferenceById(locationId);
@@ -53,18 +61,14 @@ public class LocationService {
         return locationInfoView;
     }
 
-
-
-    @Transactional
-    public void addAtmLocation(LocationRequest locationRequest) {
-        handleLocationNameAvailabilityValidation(locationRequest);
-        Location location = createAndSaveLocation(locationRequest);
-        handleImageData(locationRequest, location);
-        createAndSaveLocationTransactionTypes(locationRequest, location);
+    public void removeAtmLocation(Integer locationId) {
+        Location location = locationRepository.getReferenceById(locationId);
+        location.setStatus(Status.DEACTIVATED);
+        locationRepository.save(location);
     }
 
     public List<LocationInfo> findAtmLocations(Integer cityId) {
-        List<Location> locations = locationRepository.findLocationsBy(cityId);
+        List<Location> locations = locationRepository.findLocationsBy(cityId, Status.ACTIVE);
         ValidationService.validateLocationExists(locations);
         return createLocationInfos(locations);
     }
@@ -79,13 +83,10 @@ public class LocationService {
         return imageData;
     }
 
-
-
     private void handleLocationNameAvailabilityValidation(LocationRequest locationRequest) {
         boolean locationNameExists = locationRepository.locationNameExists(locationRequest.getLocationName());
         ValidationService.validateLocationNameAvailable(locationNameExists);
     }
-
 
     private List<LocationInfo> createLocationInfos(List<Location> locations) {
         List<LocationInfo> locationInfos = locationMapper.toLocationInfos(locations);
@@ -160,6 +161,5 @@ public class LocationService {
         locationTransactionType.setTransactionType(transactionType);
         return locationTransactionType;
     }
-
 
 }

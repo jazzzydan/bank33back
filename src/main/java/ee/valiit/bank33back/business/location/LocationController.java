@@ -39,6 +39,14 @@ public class LocationController {
         return locationService.getAtmLocation(locationId);
     }
 
+
+    @DeleteMapping("/location/{locationId}")
+    @Operation(summary = "Pangaautomaadi eemaldamine locationId abil",
+            description = "Andmebaasist reaalselt asukoha infot ei eemaldata, vaid see deaktiveeritakse")
+    public void removeAtmLocation(@PathVariable Integer locationId) {
+        locationService.removeAtmLocation(locationId);
+    }
+
     @GetMapping("/locations/city/{cityId}")
     @Operation(summary = "Tagastab pangaatuomaatide asukohtade infot.",
             description = "Kui cityId on 0, siis tagastatakse kõik asukohad")
@@ -49,7 +57,6 @@ public class LocationController {
     public List<LocationInfo> findAtmLocations(@PathVariable Integer cityId) {
         return locationService.findAtmLocations(cityId);
     }
-
 
 
 }
