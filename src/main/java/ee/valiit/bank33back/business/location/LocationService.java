@@ -1,5 +1,6 @@
 package ee.valiit.bank33back.business.location;
 
+import ee.valiit.bank33back.business.Status;
 import ee.valiit.bank33back.business.location.dto.*;
 import ee.valiit.bank33back.domain.location.Location;
 import ee.valiit.bank33back.domain.location.LocationMapper;
@@ -38,11 +39,12 @@ public class LocationService {
     private final LocationImageMapper locationImageMapper;
     private final TransactionTypeMapper transactionTypeMapper;
 
-
-    public List<LocationInfo> findAtmLocations(Integer cityId) {
-        List<Location> locations = locationRepository.findLocationsBy(cityId);
-        ValidationService.validateLocationExists(locations);
-        return createLocationInfos(locations);
+    @Transactional
+    public void addAtmLocation(LocationRequest locationRequest) {
+        handleLocationNameAvailabilityValidation(locationRequest);
+        Location location = createAndSaveLocation(locationRequest);
+        handleImageData(locationRequest, location);
+        createAndSaveLocationTransactionTypes(locationRequest, location);
     }
 
     public LocationInfoView getAtmLocation(Integer locationId) {
@@ -59,16 +61,45 @@ public class LocationService {
         return locationInfoView;
     }
 
-    @Transactional
-    public void addAtmLocation(LocationRequest locationRequest) {
-        handleLocationNameAvailabilityValidation(locationRequest);
-        Location location = createAndSaveLocation(locationRequest);
-        handleImageData(locationRequest, location);
-        createAndSaveLocationTransactionTypes(locationRequest, location);
+    public void updateAtmLocation(Integer locationId, LocationRequest locationRequest) {
+        Location location = locationRepository.getReferenceById(locationId);
+
+
+
+        // vaja sellega tegeleda
+//    @Mapping(source = "", target = "city")
+        locationMapper.updateLocation(locationRequest, location);
+
+
+        if (!haveSameCityId(locationRequest, location)) {
+            // todo: leia cityId abil ülesse City objekt ja pane see location'i külge
+        }
+
+
+        // todo: salvesta location objekt
+
+
+    }
+
+    private static boolean haveSameCityId(LocationRequest locationRequest, Location location) {
+        return location.getCity().getId().equals(locationRequest.getCityId());
+    }
+
+    public void removeAtmLocation(Integer locationId) {
+        Location location = locationRepository.getReferenceById(locationId);
+        location.setStatus(Status.DEACTIVATED);
+        locationRepository.save(location);
+    }
+
+    public List<LocationInfo> findAtmLocations(Integer cityId) {
+        List<Location> locations = locationRepository.findLocationsBy(cityId, Status.ACTIVE);
+        ValidationService.validateLocationExists(locations);
+        return createLocationInfos(locations);
     }
 
     private String getImageData(Integer locationId) {
         Optional<LocationImage> optionalLocationImage = locationImageRepository.findLocationImageBy(locationId);
+
         String imageData = "";
         if (optionalLocationImage.isPresent()) {
             imageData = StringConverter.bytesToString(optionalLocationImage.get().getData());
@@ -80,7 +111,6 @@ public class LocationService {
         boolean locationNameExists = locationRepository.locationNameExists(locationRequest.getLocationName());
         ValidationService.validateLocationNameAvailable(locationNameExists);
     }
-
 
     private List<LocationInfo> createLocationInfos(List<Location> locations) {
         List<LocationInfo> locationInfos = locationMapper.toLocationInfos(locations);
@@ -155,4 +185,5 @@ public class LocationService {
         locationTransactionType.setTransactionType(transactionType);
         return locationTransactionType;
     }
+
 }

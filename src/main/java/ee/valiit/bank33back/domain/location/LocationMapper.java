@@ -1,7 +1,6 @@
 package ee.valiit.bank33back.domain.location;
 
 
-
 import ee.valiit.bank33back.business.Status;
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
 import ee.valiit.bank33back.business.location.dto.LocationInfoView;
@@ -20,13 +19,23 @@ public interface LocationMapper {
 
     List<LocationInfo> toLocationInfos(List<Location> locations);
 
+
     @Mapping(source = "name", target = "locationName")
     @Mapping(source = "numberOfAtms", target = "numberOfAtms")
     LocationInfoView toLocationInfoView(Location location);
+
 
     @Mapping(source = "locationName", target = "name")
     @Mapping(source = "numberOfAtms", target = "numberOfAtms")
     @Mapping(constant = Status.ACTIVE, target = "status")
     Location toLocation(LocationRequest locationRequest);
+
+
+
+    @Mapping(source = "locationName", target = "name")
+    @Mapping(source = "numberOfAtms", target = "numberOfAtms")
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Location updateLocation(LocationRequest locationRequest, @MappingTarget Location location);
+
 
 }

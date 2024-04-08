@@ -23,11 +23,34 @@ public class LocationController {
 
     private LocationService locationService;
 
+    @PostMapping("/location")
+    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
+        locationService.addAtmLocation(locationRequest);
+    }
+
     @GetMapping("/location/{locationId}")
-    @Operation(summary = "Leiab locationId abil ulesse pangaautomaati asukoha koos pildi infoga",
-    description = "Kui pilti ei ole siis imageData valja vaartus on tuhi string")
+    @Operation(summary = "Leiab locationId abil ülesse pangaautomaadi asukoha info koos pildi infoga",
+            description = "Kui pilti ei ole, siis imageData välja väärtus on tühi string")
     public LocationInfoView getAtmLocation(@PathVariable Integer locationId) {
         return locationService.getAtmLocation(locationId);
+    }
+
+
+    @PutMapping("/location/{locationId}")
+    public void updateAtmLocation(@PathVariable Integer locationId, @RequestBody LocationRequest locationRequest) {
+        locationService.updateAtmLocation(locationId, locationRequest);
+    }
+
+
+    @DeleteMapping("/location/{locationId}")
+    @Operation(summary = "Pangaautomaadi eemaldamine locationId abil",
+            description = "Andmebaasist reaalselt asukoha infot ei eemaldata, vaid see deaktiveeritakse")
+    public void removeAtmLocation(@PathVariable Integer locationId) {
+        locationService.removeAtmLocation(locationId);
     }
 
     @GetMapping("/locations/city/{cityId}")
@@ -41,13 +64,5 @@ public class LocationController {
         return locationService.findAtmLocations(cityId);
     }
 
-    @PostMapping("/location")
-    @Operation(summary = "Uue pangaautomaadi lisamine.", description = "imageData ja transactionTypeName pole kohustuslikud väljad")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
-        locationService.addAtmLocation(locationRequest);
-    }
 
 }
