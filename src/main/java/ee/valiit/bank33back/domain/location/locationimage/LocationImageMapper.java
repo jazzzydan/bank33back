@@ -1,6 +1,6 @@
 package ee.valiit.bank33back.domain.location.locationimage;
 
-import ee.valiit.bank33back.business.location.dto.LocationRequest;
+import ee.valiit.bank33back.business.location.dto.LocationInfoExtended;
 import ee.valiit.bank33back.util.StringConverter;
 import org.mapstruct.*;
 
@@ -9,10 +9,10 @@ public interface LocationImageMapper {
 
 //    Nimelise meetodiga lahendus
 //    @Mapping(source = "imageData", target = "data", qualifiedByName = "toImageData")
-//    LocationImage toLocationImage(LocationRequest locationRequest);
+//    LocationImage toLocationImage(LocationInfoExtended locationInfoExtended);
 
-    @Mapping( expression = "java(StringConverter.stringToBytes(locationRequest.getImageData()))", target = "data")
-    LocationImage toLocationImage(LocationRequest locationRequest);
+    @Mapping( expression = "java(StringConverter.stringToBytes(locationInfoExtended.getImageData()))", target = "data")
+    LocationImage toLocationImage(LocationInfoExtended locationInfoExtended);
 
 
 

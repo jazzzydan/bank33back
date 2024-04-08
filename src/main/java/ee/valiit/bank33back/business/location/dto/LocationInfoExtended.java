@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LocationRequest implements Serializable {
+public class LocationInfoExtended implements Serializable {
     private Integer cityId;
 
     @NotNull
