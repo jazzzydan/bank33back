@@ -41,6 +41,8 @@ public class LocationController {
 
 
     @PutMapping("/location/{locationId}")
+    @Operation(summary = "Muudab olemasoleva pangaautomaadi andmeid (kirjutab üle).",
+            description = "imageData ja transactionTypeName pole kohustuslikud väljad")
     public void updateAtmLocation(@PathVariable Integer locationId, @RequestBody LocationRequest locationRequest) {
         locationService.updateAtmLocation(locationId, locationRequest);
     }

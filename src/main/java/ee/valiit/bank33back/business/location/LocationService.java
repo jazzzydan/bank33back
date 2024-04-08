@@ -61,29 +61,17 @@ public class LocationService {
         return locationInfoView;
     }
 
+    @Transactional
     public void updateAtmLocation(Integer locationId, LocationRequest locationRequest) {
         Location location = locationRepository.getReferenceById(locationId);
-
-
-
-        // vaja sellega tegeleda
-//    @Mapping(source = "", target = "city")
         locationMapper.updateLocation(locationRequest, location);
-
-
-        if (!haveSameCityId(locationRequest, location)) {
-            // todo: leia cityId abil ülesse City objekt ja pane see location'i külge
-        }
-
-
-        // todo: salvesta location objekt
-
-
+        handleCityUpdate(locationRequest, location);
+        handleLocationTransactionTypesUpdate(locationId, locationRequest, location);
+        locationRepository.save(location);
     }
 
-    private static boolean haveSameCityId(LocationRequest locationRequest, Location location) {
-        return location.getCity().getId().equals(locationRequest.getCityId());
-    }
+
+
 
     public void removeAtmLocation(Integer locationId) {
         Location location = locationRepository.getReferenceById(locationId);
@@ -174,7 +162,6 @@ public class LocationService {
                 LocationTransactionType locationTransactionType = createLocationTransactionType(location, transactionType);
                 locationTransactionTypes.add(locationTransactionType);
             }
-
         }
         return locationTransactionTypes;
     }
@@ -184,6 +171,22 @@ public class LocationService {
         locationTransactionType.setLocation(location);
         locationTransactionType.setTransactionType(transactionType);
         return locationTransactionType;
+    }
+
+    private void handleCityUpdate(LocationRequest locationRequest, Location location) {
+        if (!haveSameCityId(locationRequest, location)) {
+            City city = cityRepository.getReferenceById(locationRequest.getCityId());
+            location.setCity(city);
+        }
+    }
+
+    private static boolean haveSameCityId(LocationRequest locationRequest, Location location) {
+        return location.getCity().getId().equals(locationRequest.getCityId());
+    }
+
+    private void handleLocationTransactionTypesUpdate(Integer locationId, LocationRequest locationRequest, Location location) {
+        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(locationId);
+        createAndSaveLocationTransactionTypes(locationRequest, location);
     }
 
 }

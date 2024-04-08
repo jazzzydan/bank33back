@@ -1,0 +1,23 @@
+{
+  "cityId": 2,
+  "locationName": "Sikupilli keskuse Prism",
+  "numberOfAtms": 2,
+  "imageData": "",
+  "transactionTypes": [
+    {
+      "transactionTypeId": 1,
+      "transactionTypeName": "sularaha sisse",
+      "isAvailable": false
+    },
+    {
+      "transactionTypeId": 2,
+      "transactionTypeName": "sularaha välja",
+      "isAvailable": true
+    },
+    {
+      "transactionTypeId": 3,
+      "transactionTypeName": "maksed",
+      "isAvailable": false
+    }
+  ]
+}
