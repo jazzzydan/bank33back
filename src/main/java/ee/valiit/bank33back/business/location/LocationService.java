@@ -61,24 +61,34 @@ public class LocationService {
         return locationInfoView;
     }
 
+    @Transactional
     public void updateAtmLocation(Integer locationId, LocationRequest locationRequest) {
         Location location = locationRepository.getReferenceById(locationId);
-
-
-
-        // vaja sellega tegeleda
-//    @Mapping(source = "", target = "city")
         locationMapper.updateLocation(locationRequest, location);
+        handleCityUpdate(locationRequest, location);
+        handleTransactionTypesUpdate(locationRequest, location);
+        handleImageDataUpdate(locationRequest, location);
+        locationRepository.save(location);
+    }
 
+    private void handleImageDataUpdate(LocationRequest locationRequest, Location location) {
 
-        if (!haveSameCityId(locationRequest, location)) {
-            // todo: leia cityId abil ülesse City objekt ja pane see location'i külge
+        if (hasImage(locationRequest.getImageData())) {
+            locationImageRepository.deleteLocationImageBy(location.getId());
+            createAndSaveLocationImage(locationRequest, location);
         }
+    }
 
+    private void handleTransactionTypesUpdate(LocationRequest locationRequest, Location location) {
+        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(location.getId());
+        createAndSaveLocationTransactionTypes(locationRequest, location);
+    }
 
-        // todo: salvesta location objekt
-
-
+    private void handleCityUpdate(LocationRequest locationRequest, Location location) {
+        if (!haveSameCityId(locationRequest, location)) {
+            City city = cityRepository.getReferenceById(locationRequest.getCityId());
+            location.setCity(city);
+        }
     }
 
     private static boolean haveSameCityId(LocationRequest locationRequest, Location location) {
