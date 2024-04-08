@@ -66,12 +66,10 @@ public class LocationService {
         Location location = locationRepository.getReferenceById(locationId);
         locationMapper.updateLocation(locationRequest, location);
         handleCityUpdate(locationRequest, location);
-        handleLocationTransactionTypesUpdate(locationId, locationRequest, location);
+        handleImageDataUpdate(locationRequest, location);
+        handleLocationTransactionTypesUpdate(locationRequest, location);
         locationRepository.save(location);
     }
-
-
-
 
     public void removeAtmLocation(Integer locationId) {
         Location location = locationRepository.getReferenceById(locationId);
@@ -184,8 +182,15 @@ public class LocationService {
         return location.getCity().getId().equals(locationRequest.getCityId());
     }
 
-    private void handleLocationTransactionTypesUpdate(Integer locationId, LocationRequest locationRequest, Location location) {
-        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(locationId);
+    private void handleImageDataUpdate(LocationRequest locationRequest, Location location) {
+        if (hasImage(locationRequest.getImageData())) {
+            locationImageRepository.deleteLocationImageBy(location.getId());
+            createAndSaveLocationImage(locationRequest, location);
+        }
+    }
+
+    private void handleLocationTransactionTypesUpdate(LocationRequest locationRequest, Location location) {
+        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(location.getId());
         createAndSaveLocationTransactionTypes(locationRequest, location);
     }
 
