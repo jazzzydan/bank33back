@@ -2,8 +2,7 @@ package ee.valiit.bank33back.business.location;
 
 
 import ee.valiit.bank33back.business.location.dto.LocationInfo;
-import ee.valiit.bank33back.business.location.dto.LocationInfoView;
-import ee.valiit.bank33back.business.location.dto.LocationRequest;
+import ee.valiit.bank33back.business.location.dto.LocationInfoExtended;
 import ee.valiit.bank33back.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,14 +27,14 @@ public class LocationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Sellise nimega pangaautomaadi asukoht on juba süsteemis olemas", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addAtmLocation(@RequestBody @Valid LocationRequest locationRequest) {
-        locationService.addAtmLocation(locationRequest);
+    public void addAtmLocation(@RequestBody @Valid LocationInfoExtended locationInfoExtended) {
+        locationService.addAtmLocation(locationInfoExtended);
     }
 
     @GetMapping("/location/{locationId}")
     @Operation(summary = "Leiab locationId abil ülesse pangaautomaadi asukoha info koos pildi infoga",
             description = "Kui pilti ei ole, siis imageData välja väärtus on tühi string")
-    public LocationInfoView getAtmLocation(@PathVariable Integer locationId) {
+    public LocationInfoExtended getAtmLocation(@PathVariable Integer locationId) {
         return locationService.getAtmLocation(locationId);
     }
 
@@ -43,8 +42,8 @@ public class LocationController {
     @PutMapping("/location/{locationId}")
     @Operation(summary = "Muudab olemasoleva pangaautomaadi andmeid (kirjutab üle).",
             description = "imageData ja transactionTypeName pole kohustuslikud väljad")
-    public void updateAtmLocation(@PathVariable Integer locationId, @RequestBody LocationRequest locationRequest) {
-        locationService.updateAtmLocation(locationId, locationRequest);
+    public void updateAtmLocation(@PathVariable Integer locationId, @RequestBody LocationInfoExtended locationInfoExtended) {
+        locationService.updateAtmLocation(locationId, locationInfoExtended);
     }
 
 
