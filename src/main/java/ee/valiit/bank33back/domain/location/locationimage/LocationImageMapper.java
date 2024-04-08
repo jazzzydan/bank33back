@@ -7,22 +7,24 @@ import org.mapstruct.*;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, imports = {StringConverter.class})
 public interface LocationImageMapper {
 
-//    Nimelise meetodiga lahendus
-//    @Mapping(source = "imageData", target = "data", qualifiedByName = "toImageData")
-//    LocationImage toLocationImage(LocationInfoExtended locationInfoExtended);
+
 
     @Mapping( expression = "java(StringConverter.stringToBytes(locationInfoExtended.getImageData()))", target = "data")
     LocationImage toLocationImage(LocationInfoExtended locationInfoExtended);
 
 
+//    Nimelise meetodiga lahendus
+//    @Mapping(source = "imageData", target = "data", qualifiedByName = "toImageData")
+//    LocationImage toLocationImage(LocationInfoExtended locationInfoExtended);
+
+//    @Named("toImageData")
+//    static byte[] toImageData(String imageData) {
+//        byte[] bytes = StringConverter.stringToBytes(imageData);
+//        return bytes;
+//    }
 
 
 
-    @Named("toImageData")
-    static byte[] toImageData(String imageData) {
-        byte[] bytes = StringConverter.stringToBytes(imageData);
-        return bytes;
-    }
 
 
 }

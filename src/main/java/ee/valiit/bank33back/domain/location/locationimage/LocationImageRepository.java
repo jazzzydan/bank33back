@@ -1,6 +1,5 @@
 package ee.valiit.bank33back.domain.location.locationimage;
 
-import ee.valiit.bank33back.domain.location.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +16,5 @@ public interface LocationImageRepository extends JpaRepository<LocationImage, In
     @Modifying
     @Query("delete from LocationImage l where l.location.id = :locationId")
     void deleteLocationImageBy(Integer locationId);
-
 
 }

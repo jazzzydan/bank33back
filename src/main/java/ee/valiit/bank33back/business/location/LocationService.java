@@ -55,7 +55,10 @@ public class LocationService {
 
         List<TransactionTypeInfoExtended> transactionTypeInfosExtended = transactionTypeMapper.toTransactionTypeInfosExtended(transactionTypes);
 
+
         LocationInfoExtended locationInfoExtended = locationMapper.toLocationInfoExtended(location);
+
+
         locationInfoExtended.setImageData(imageData);
         locationInfoExtended.setTransactionTypes(transactionTypeInfosExtended);
 
@@ -67,33 +70,9 @@ public class LocationService {
         Location location = locationRepository.getReferenceById(locationId);
         locationMapper.updateLocation(locationInfoExtended, location);
         handleCityUpdate(locationInfoExtended, location);
-        handleTransactionTypesUpdate(locationInfoExtended, location);
         handleImageDataUpdate(locationInfoExtended, location);
+        handleLocationTransactionTypesUpdate(locationInfoExtended, location);
         locationRepository.save(location);
-    }
-
-    private void handleImageDataUpdate(LocationInfoExtended locationInfoExtended, Location location) {
-
-        if (hasImage(locationInfoExtended.getImageData())) {
-            locationImageRepository.deleteLocationImageBy(location.getId());
-            createAndSaveLocationImage(locationInfoExtended, location);
-        }
-    }
-
-    private void handleTransactionTypesUpdate(LocationInfoExtended locationInfoExtended, Location location) {
-        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(location.getId());
-        createAndSaveLocationTransactionTypes(locationInfoExtended, location);
-    }
-
-    private void handleCityUpdate(LocationInfoExtended locationInfoExtended, Location location) {
-        if (!haveSameCityId(locationInfoExtended, location)) {
-            City city = cityRepository.getReferenceById(locationInfoExtended.getCityId());
-            location.setCity(city);
-        }
-    }
-
-    private static boolean haveSameCityId(LocationInfoExtended locationInfoExtended, Location location) {
-        return location.getCity().getId().equals(locationInfoExtended.getCityId());
     }
 
     public void removeAtmLocation(Integer locationId) {
@@ -185,7 +164,6 @@ public class LocationService {
                 LocationTransactionType locationTransactionType = createLocationTransactionType(location, transactionType);
                 locationTransactionTypes.add(locationTransactionType);
             }
-
         }
         return locationTransactionTypes;
     }
@@ -195,6 +173,29 @@ public class LocationService {
         locationTransactionType.setLocation(location);
         locationTransactionType.setTransactionType(transactionType);
         return locationTransactionType;
+    }
+
+    private void handleCityUpdate(LocationInfoExtended locationInfoExtended, Location location) {
+        if (!haveSameCityId(locationInfoExtended, location)) {
+            City city = cityRepository.getReferenceById(locationInfoExtended.getCityId());
+            location.setCity(city);
+        }
+    }
+
+    private static boolean haveSameCityId(LocationInfoExtended locationInfoExtended, Location location) {
+        return location.getCity().getId().equals(locationInfoExtended.getCityId());
+    }
+
+    private void handleImageDataUpdate(LocationInfoExtended locationInfoExtended, Location location) {
+        if (hasImage(locationInfoExtended.getImageData())) {
+            locationImageRepository.deleteLocationImageBy(location.getId());
+            createAndSaveLocationImage(locationInfoExtended, location);
+        }
+    }
+
+    private void handleLocationTransactionTypesUpdate(LocationInfoExtended locationInfoExtended, Location location) {
+        locationTransactionTypeRepository.deleteLocationTransactionTypesBy(location.getId());
+        createAndSaveLocationTransactionTypes(locationInfoExtended, location);
     }
 
 }

@@ -18,4 +18,7 @@ public interface LocationTransactionTypeRepository extends JpaRepository<Locatio
     @Query("delete from LocationTransactionType l where l.location.id = :locationId")
     void deleteLocationTransactionTypesBy(Integer locationId);
 
+
+
+
 }
