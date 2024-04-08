@@ -49,19 +49,12 @@ public class LocationService {
 
     public LocationInfoExtended getAtmLocation(Integer locationId) {
         Location location = locationRepository.getReferenceById(locationId);
-
         String imageData = getImageData(locationId);
         List<TransactionType> transactionTypes = locationTransactionTypeRepository.findTransactionTypesBy(locationId);
-
         List<TransactionTypeInfoExtended> transactionTypeInfosExtended = transactionTypeMapper.toTransactionTypeInfosExtended(transactionTypes);
-
-
         LocationInfoExtended locationInfoExtended = locationMapper.toLocationInfoExtended(location);
-
-
         locationInfoExtended.setImageData(imageData);
         locationInfoExtended.setTransactionTypes(transactionTypeInfosExtended);
-
         return locationInfoExtended;
     }
 
